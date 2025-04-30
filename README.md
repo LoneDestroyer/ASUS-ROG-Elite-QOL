@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL">
-    <img src="https://rog.asus.com//apple-touch-icon.png" alt="Logo" width="100" height="100">
+    <img src="https://rog.asus.com/elite/dist/img/logo-rogelite.png" alt="Logo" width="105" height="119">
   </a>
 
 <h3 align="center">ASUS ROG Elite - Quality Of Life</h3>
