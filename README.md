@@ -11,6 +11,14 @@
   </p>
 </div>
 
+<!-- Features -->
+## Features
+- Adds a panel to toggle hiding of various "cards"
+- Hides Wallpapers cards
+- Hides Unavailable cards
+  - Completed Activities
+  - Sold Out Rewards
+  - Locked Rewards
 
 <!-- Install Help -->
 ## Installation
