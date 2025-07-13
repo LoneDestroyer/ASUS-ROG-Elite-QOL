@@ -5,7 +5,7 @@
 // @license     MIT
 // @match       https://rog.asus.com/*/elite*
 // @icon        https://rog.asus.com/rog/nuxtStatic/img/favicon.ico
-// @version     1.0
+// @version     1.0.1
 // @namespace   https://github.com/LoneDestroyer
 // @downloadURL https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
 // @updateURL   https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
@@ -41,29 +41,73 @@
 
     // Creates settings panel with checkboxes
     function createSettingsPanel() {
+        if (!document.getElementById('asus-rog-qol-styles')) {
+            const style = document.createElement('style');
+            style.id = 'asus-rog-qol-styles';
+            style.textContent = `
+                .elite-qol-panel {position:fixed;top:10px;left:10px;z-index:9999;background:#181a1b;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.2);font-family:roboto,sans-serif;font-size:15px;display:flex;flex-direction:column;width:150px;}
+                .elite-qol-header-btn {position:relative;overflow:hidden;border-radius:8px 8px 0 0;background:#e30017;font-family:tradegothicltpro,sans-serif;padding-top:5px;display:flex;align-items:center;justify-content:center;}
+                .elite-qol-header-hover {position:absolute;top:0;left:0;width:100%;height:100%;background:#c20013;opacity:0;cursor:pointer;transition:opacity 0.2s;z-index:1;}
+                .elite-qol-header-btn:hover .elite-qol-header-hover,.elite-qol-header-btn:focus .elite-qol-header-hover {opacity:1;}
+                .elite-qol-header-btn span {font-weight:bold;font-size:16px;color:#fff;letter-spacing:1.5px;z-index:2;position:relative;}
+                .elite-qol-content {padding:10px;display:flex;flex-direction:column;;}
+                .elite-qol-label {display:flex;align-items:center;gap:4px;}
+                .elite-qol-label-group {display:flex;flex-direction:column;margin-left:24px;}`;
+                
+            document.head.appendChild(style);
+        }
         const panel = document.createElement('div');
-        panel.style = `
-            position:fixed;top:10px;left:10px;z-index:9999;background:#181a1b;
-            padding:10px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.2);font-family:Arial,sans-serif;
-            font-size:14px;display:flex;flex-direction:column;gap:5px;`.replace(/\s+/g, '');
-        // Header
-        panel.innerHTML = `<span style="
-            font-weight:bold;font-size:13px;color:#fff;background:#c20013;
-            padding:3px 0;border-radius:6px 6px 0 0;letter-spacing:1.5px;
-            text-align:center;margin:0 -10px 0 -10px;">HIDE</span>`;
+        panel.className = 'elite-qol-panel';
+
+        // Header button
+        const headerBtn = document.createElement('div');
+        headerBtn.setAttribute('role', 'button');
+        headerBtn.setAttribute('tabindex', '0');
+        headerBtn.className = 'elite-qol-header-btn';
+        headerBtn.setAttribute('aria-expanded', 'true');
+
+        const headerSpan = document.createElement('span');
+        headerSpan.textContent = 'HIDE';
+        headerBtn.appendChild(headerSpan);
+
+        // Add hover effect div
+        const hoverDiv = document.createElement('div');
+        hoverDiv.className = 'elite-qol-header-hover';
+        headerBtn.appendChild(hoverDiv);
+
+        // Panel Content container
+        const content = document.createElement('div');
+        content.className = 'elite-qol-content';
 
         // Store refs for checkboxes incase of page updates
         const refs = {};
+        let expanded = true;
+
         toggleOptions.forEach(({ key, label, children }) => {
-            addCheckbox(panel, key, label, refs, children);
+            addCheckbox(content, key, label, refs, children);
             if (children) {
                 // Indent child checkboxes visually
                 const subCheckboxGroup = document.createElement('div');
-                subCheckboxGroup.style = 'display:flex;flex-direction:column;gap:4px;margin-left:24px;';
+                subCheckboxGroup.className = 'elite-qol-label-group';
                 children.forEach(childOption => addCheckbox(subCheckboxGroup, childOption.key, childOption.label, refs));
-                panel.appendChild(subCheckboxGroup);
+                content.appendChild(subCheckboxGroup);
             }
         });
+
+        headerBtn.onclick = () => {
+            expanded = !expanded;
+            content.style.display = expanded ? 'flex' : 'none';
+            headerBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            headerBtn.blur();  // Remove focus from button after click to hide hover effect
+        };
+        headerBtn.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                headerBtn.onclick();
+                e.preventDefault();
+            }
+        };
+        panel.appendChild(headerBtn);
+        panel.appendChild(content);
         document.body.appendChild(panel);
 
         // Create checkbox + label
@@ -97,7 +141,7 @@
             checkbox.title = description;
 
             const checkboxLabel = document.createElement('label');
-            checkboxLabel.style = 'display:flex;align-items:center;gap:4px;';
+            checkboxLabel.className = 'elite-qol-label';
             checkboxLabel.append(checkbox, document.createTextNode(label));
             checkboxLabel.title = description;
             parent.appendChild(checkboxLabel);
