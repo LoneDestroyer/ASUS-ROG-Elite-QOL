@@ -5,7 +5,7 @@
 // @license     MIT
 // @match       https://rog.asus.com/*/elite*
 // @icon        https://rog.asus.com/rog/nuxtStatic/img/favicon.ico
-// @version     1.0.1
+// @version     1.0.2
 // @namespace   https://github.com/LoneDestroyer
 // @downloadURL https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
 // @updateURL   https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
@@ -53,7 +53,6 @@
                 .elite-qol-content {padding:10px;display:flex;flex-direction:column;;}
                 .elite-qol-label {display:flex;align-items:center;gap:4px;}
                 .elite-qol-label-group {display:flex;flex-direction:column;margin-left:24px;}`;
-                
             document.head.appendChild(style);
         }
         const panel = document.createElement('div');
@@ -98,7 +97,7 @@
             expanded = !expanded;
             content.style.display = expanded ? 'flex' : 'none';
             headerBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-            headerBtn.blur();  // Remove focus from button after click to hide hover effect
+            headerBtn.blur(); // Remove focus from button after click to hide hover effect
         };
         headerBtn.onkeydown = (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
@@ -171,7 +170,8 @@
 
     // Returns true if a card should be hidden - based on preferences and card content
     function shouldHideCard(cardTitle, cardStatus, userPreferences) {
-        if (userPreferences.hideWallpapers && cardTitle.includes('wallpaper')) return true;
+        const mhMonsters = ['zinogre', 'deviljho', 'cologne'];
+        if (userPreferences.hideWallpapers && (cardTitle.includes('wallpaper') || (cardTitle.includes('monster hunter now') && mhMonsters.some(monster => cardTitle.includes(monster))) || cardTitle.includes('rog x evangelion｜eva-02｜3840x2160') )) return true;
         if (cardStatus.includes('complete') && userPreferences.showCompleted) return true;
         if (cardStatus.includes('sold out') && userPreferences.showSoldOut) return true;
         if (cardStatus.includes('locked') && userPreferences.showLocked) return true;
