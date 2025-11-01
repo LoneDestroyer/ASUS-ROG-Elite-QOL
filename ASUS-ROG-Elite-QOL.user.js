@@ -5,7 +5,7 @@
 // @license     MIT
 // @match       https://rog.asus.com/*/elite*
 // @icon        https://rog.asus.com/rog/nuxtStatic/img/favicon.ico
-// @version     1.0.2
+// @version     1.0.3
 // @namespace   https://github.com/LoneDestroyer
 // @downloadURL https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
 // @updateURL   https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
@@ -168,14 +168,19 @@
         }
     }
 
+    // Compact term lists and matcher
+    const MH_MONSTERS=['zinogre','deviljho','cologne'],
+          WALLPAPER_TERMS=['wallpaper','rog x evangelion|eva-02|3840x2160'],
+          STATUS_MAP=[[ 'showCompleted',['complete','zakończ'] ],[ 'showSoldOut',['sold out','wyprzedane'] ],[ 'showLocked',['locked','zablokowano'] ]];
+
+    const matchAny=(s,terms)=>terms.some(t=>s.includes(t));
+
     // Returns true if a card should be hidden - based on preferences and card content
-    function shouldHideCard(cardTitle, cardStatus, userPreferences) {
-        const mhMonsters = ['zinogre', 'deviljho', 'cologne'];
-        if (userPreferences.hideWallpapers && (cardTitle.includes('wallpaper') || (cardTitle.includes('monster hunter now') && mhMonsters.some(monster => cardTitle.includes(monster))) || cardTitle.includes('rog x evangelion｜eva-02｜3840x2160') )) return true;
-        if (cardStatus.includes('complete') && userPreferences.showCompleted) return true;
-        if (cardStatus.includes('sold out') && userPreferences.showSoldOut) return true;
-        if (cardStatus.includes('locked') && userPreferences.showLocked) return true;
-        return false;
+    function shouldHideCard(cardTitle, cardStatus, userPreferences){
+        return (
+            userPreferences.hideWallpapers &&
+            (matchAny(cardTitle,WALLPAPER_TERMS) || (cardTitle.includes('monster hunter now') && matchAny(cardTitle,MH_MONSTERS)))
+        ) || STATUS_MAP.some(([pref,terms])=>userPreferences[pref] && matchAny(cardStatus,terms));
     }
 
     // Hides / Shows cards based on user preference
