@@ -30,3 +30,29 @@
 
 #### Step 2: UserScript
 * [Click here to install](https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js) *(via Github)*
+
+<!-- Screenshots -->
+## Screenshots
+<details>
+  <summary>New</summary>
+  <div align="center">
+    Wallpapers & Sold Out Hidden
+    <br /><br />
+    <img
+      alt="New (Wallpapers & Sold Out Hidden)"
+      src="https://github.com/user-attachments/assets/019bf1b6-d454-4d33-ac15-6192daf8a574"
+      width="1000"/>
+  </div>
+</details>
+
+<details>
+  <summary>Old</summary>
+  <div align="center">
+    Untouched
+    <br /><br />
+    <img
+      alt="Old"
+      src="https://github.com/user-attachments/assets/c6510d66-0a47-42d3-8653-dc77802fe78f"
+      width="1000"/>
+  </div>
+</details>
