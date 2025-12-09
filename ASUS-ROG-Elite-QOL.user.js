@@ -4,8 +4,9 @@
 // @author      Lone Destroyer
 // @license     MIT
 // @match       https://rog.asus.com/*/elite*
+// @match       https://rog.asus.com/elite*
 // @icon        https://rog.asus.com/rog/nuxtStatic/img/favicon.ico
-// @version     1.0.4
+// @version     1.0.5
 // @namespace   https://github.com/LoneDestroyer
 // @downloadURL https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
 // @updateURL   https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
