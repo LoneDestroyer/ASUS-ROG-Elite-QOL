@@ -6,7 +6,7 @@
 // @match       https://rog.asus.com/*/elite*
 // @match       https://rog.asus.com/elite*
 // @icon        https://rog.asus.com/rog/nuxtStatic/img/favicon.ico
-// @version     1.0.5
+// @version     1.0.6
 // @namespace   https://github.com/LoneDestroyer
 // @downloadURL https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
 // @updateURL   https://github.com/LoneDestroyer/ASUS-ROG-Elite-QOL/raw/refs/heads/main/ASUS-ROG-Elite-QOL.user.js
@@ -172,9 +172,9 @@
     // Compact term lists and matcher
     const MH_MONSTERS=['zinogre','deviljho','cologne'],
           WALLPAPER_TERMS=['wallpaper','rog x evangelion｜eva-02｜3840x2160'],
-          STATUS_MAP=[[ 'showCompleted',['complete','zakończ'] ],[ 'showSoldOut',['sold out','wyprzedane'] ],[ 'showLocked',['locked','zablokowano'] ]];
+          STATUS_MAP=[[ 'showCompleted',['complete','finish','zakończ'] ],[ 'showSoldOut',['sold out','wyprzedane'] ],[ 'showLocked',['locked','blocked','zablokowano'] ]];
 
-    const matchAny=(s,terms)=>terms.some(t=>s.includes(t));
+    const matchAny=(s,terms)=>terms.some(t=>new RegExp(`\\b${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`,'i').test(s));
 
     // Returns true if a card should be hidden - based on preferences and card content
     function shouldHideCard(cardTitle, cardStatus, userPreferences){
